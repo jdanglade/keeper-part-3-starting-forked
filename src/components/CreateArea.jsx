@@ -7,30 +7,38 @@ function CreateArea(props) {
   });
 
   function handleNote(event) {
-    const newTitle = event.target.value;
+    const { name, value } = event.target;
+    console.log(name);
     setNote((prevNotes) => {
-      return [
+      return {
         ...prevNotes,
-        {
-          title: newTitle,
-          text: prevNotes.content,
-        },
-      ];
+        [name]: value,
+      };
     });
+  }
+
+  function submitNote(event) {
+    props.onAdd(note);
+    event.preventDefault();
   }
 
   return (
     <div>
       <form>
-        <input name="title" placeholder="Title" />
-        <textarea name="content" placeholder="Take a note..." rows="3" />
-        <button
-          onClick={() => {
-            props.onAdd(note);
-          }}
-        >
-          Add
-        </button>
+        <input
+          name="title"
+          placeholder="Title"
+          onChange={handleNote}
+          value={note.title}
+        />
+        <textarea
+          name="content"
+          placeholder="Take a note..."
+          rows="3"
+          onChange={handleNote}
+          value={note.content}
+        />
+        <button onClick={submitNote}>Add</button>
       </form>
     </div>
   );
